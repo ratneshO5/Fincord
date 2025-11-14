@@ -1,0 +1,32 @@
+{
+  "name": "@liveblocks-examples/nextjs-yjs-monaco",
+  "description": "This example shows how to build a collaborative code editor with Liveblocks, Yjs, Monaco, and Next.js.",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@liveblocks/client": "^3.7.1",
+    "@liveblocks/node": "^3.7.1",
+    "@liveblocks/react": "^3.7.1",
+    "@liveblocks/yjs": "^3.7.1",
+    "@monaco-editor/react": "^4.5.1",
+    "@types/node": "^20.3.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.2.5",
+    "next": "^13.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "y-monaco": "^0.1.4",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "typescript": "^5.4.5"
+  }
+}
