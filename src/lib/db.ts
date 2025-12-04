@@ -3,7 +3,13 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 
-const DB_PATH = path.join(process.cwd(), 'fincord_db.json');
+import os from 'os';
+
+// Use /tmp on Vercel (read-only filesystem fix)
+const DB_FILE_NAME = 'fincord_db.json';
+const DB_PATH = process.env.NODE_ENV === 'production'
+    ? path.join(os.tmpdir(), DB_FILE_NAME)
+    : path.join(process.cwd(), DB_FILE_NAME);
 
 // Types
 export type User = {
@@ -46,21 +52,48 @@ const initialData: DBData = {
 
 // Helper to read DB
 function readDB(): DBData {
+    // If DB doesn't exist in /tmp (or local), try to initialize it
     if (!fs.existsSync(DB_PATH)) {
-        fs.writeFileSync(DB_PATH, JSON.stringify(initialData, null, 2));
+        // On Vercel, try to copy from the included source file if available
+        const sourcePath = path.join(process.cwd(), DB_FILE_NAME);
+
+        if (process.env.NODE_ENV === 'production' && fs.existsSync(sourcePath)) {
+            try {
+                const data = fs.readFileSync(sourcePath, 'utf-8');
+                fs.writeFileSync(DB_PATH, data);
+                return JSON.parse(data);
+            } catch (e) {
+                console.error("Failed to copy initial DB:", e);
+                // Fallback to empty init
+            }
+        }
+
+        // Initialize with empty data
+        try {
+            fs.writeFileSync(DB_PATH, JSON.stringify(initialData, null, 2));
+        } catch (e) {
+            console.error("Failed to write initial DB:", e);
+            return initialData; // Return in-memory fallback if write fails
+        }
         return initialData;
     }
+
     try {
         const data = fs.readFileSync(DB_PATH, 'utf-8');
         return JSON.parse(data);
     } catch (e) {
+        console.error("Failed to read DB:", e);
         return initialData;
     }
 }
 
 // Helper to write DB
 function writeDB(data: DBData) {
-    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+    try {
+        fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
+    } catch (e) {
+        console.error("Failed to write DB:", e);
+    }
 }
 
 // --- User Operations ---
