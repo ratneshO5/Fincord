@@ -91,21 +91,6 @@ Here is exactly what happens, step-by-step, during specific user actions.
 
 1.  **Click:** User clicks the button in `Explorer.tsx`.
 2.  **State Change:** `creating` state is set to true. An input box appears in the file tree.
-3.  **Commit:** User types `script.js` and hits Enter.
-4.  **Action:** `commitCreate()` calls `createFile("script.js")` from `FileSystem.tsx`.
-5.  **Logic (`FileSystem.tsx`):**
-    *   Checks if `script.js` already exists.
-    *   Creates a new `Y.Text` named `file:script.js`.
-    *   Adds an entry to the `"files"` Y.Map: `{ type: "file", language: "javascript", ... }`.
-6.  **Sync:** This change is broadcasted. All users see the new file appear in their Explorer instantly.
-
-## Scenario C: Running Code (The Piston Flow)
-**Goal:** User clicks "Run" on a Python file.
-
-1.  **Click:** User clicks the "Play" button in `Toolbar.tsx`.
-2.  **Bridge:** The button calls `window.__fincord_run_active_file__()`.
-3.  **Handler:** This global function (defined in `CollaborativeEditor.tsx`) calls `terminalRef.current.run()`.
-4.  **Terminal Logic (`TerminalPanel.tsx`):**
     *   `run()` wakes up.
     *   It grabs the code from the editor: `print("Hello")`.
     *   It detects the language: `python`.
@@ -211,19 +196,5 @@ This section details every file, explaining *why* it exists and *what* specific 
 *   **Line 62:** It creates CSS classes like `.yRemoteSelectionHead-123`.
 *   **Line 65:** It sets the `--user-color` variable for that specific user ID.
 *   **Result:** Monaco Editor (which supports these CSS classes natively) automatically picks up these styles and paints the cursors in the correct colors.
-
-### `UserProfile.tsx`
-**Role:** Identity management.
-*   **Line 13:** Reads from `localStorage`. This ensures that if you refresh the page, you don't lose your name.
-*   **Line 47 (`updateMyPresence`):** This Liveblocks hook broadcasts your name to everyone else. This is how your name appears above your cursor on *their* screen.
-
----
-
-# Summary of "How It Works"
-
-1.  **Boot:** Server renders HTML -> Browser connects to Liveblocks -> FileSystem loads from Yjs.
-2.  **Edit:** User types -> Monaco -> Yjs -> WebSocket -> Other Users.
-3.  **Run:** User clicks Run -> Terminal collects code -> API Proxy -> Piston Sandbox -> Result displayed.
-4.  **Manage:** User creates file -> FileSystem updates Yjs Map -> Explorer UI updates.
 
 This architecture ensures that **State** (Yjs) is always the single source of truth, **UI** (React) is just a reflection of that state, and **Execution** (Piston) is safely isolated from the client.
