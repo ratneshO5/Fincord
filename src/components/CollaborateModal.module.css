@@ -1,0 +1,436 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    width: 480px;
+    max-width: 90vw;
+    z-index: 2001;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #333;
+    background: #252526;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.closeBtn:hover {
+    color: #fff;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.activeTab {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+}
+
+.content {
+    padding: 24px;
+}
+
+.description {
+    margin: 0 0 16px 0;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.linkBox {
+    display: flex;
+    gap: 8px;
+}
+
+.linkInput {
+    flex: 1;
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.copyBtn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.copyBtn:hover {
+    background: #2563eb;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 8px;
+}
+
+.emailInput {
+    flex: 1;
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.emailInput:focus {
+    border-color: #3b82f6;
+}
+
+.sendBtn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.sendBtn:hover {
+    background: #2563eb;
+}
+
+.sendBtn:disabled {
+    background: #3e3e42;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.message {
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    width: 480px;
+    max-width: 90vw;
+    z-index: 2001;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #333;
+    background: #252526;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.closeBtn:hover {
+    color: #fff;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #333;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.activeTab {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+}
+
+.content {
+    padding: 24px;
+}
+
+.description {
+    margin: 0 0 16px 0;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+.linkBox {
+    display: flex;
+    gap: 8px;
+}
+
+.linkInput {
+    flex: 1;
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.copyBtn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.copyBtn:hover {
+    background: #2563eb;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 8px;
+}
+
+.emailInput {
+    flex: 1;
+    background: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.emailInput:focus {
+    border-color: #3b82f6;
+}
+
+.sendBtn {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.sendBtn:hover {
+    background: #2563eb;
+}
+
+.sendBtn:disabled {
+    background: #3e3e42;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.message {
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.collaboratorsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.collaboratorItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #252526;
+    border-radius: 6px;
+}
+
+.collaboratorInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.collaboratorAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.collaboratorAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.collaboratorName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.collaboratorEmail {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.revokeBtn {
+    background: none;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.revokeBtn:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.loading,
+.emptyState {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 14px;
+    padding: 20px;
+}

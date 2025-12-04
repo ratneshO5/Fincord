@@ -2,7 +2,8 @@ import "../globals.css";
 import { Providers } from "./Providers";
 
 export const metadata = {
-  title: "Liveblocks",
+  title: "Fincord - Collaborative Code Editor",
+  description: "Real-time collaborative code editor with live cursors and multi-file support",
 };
 
 export default function RootLayout({

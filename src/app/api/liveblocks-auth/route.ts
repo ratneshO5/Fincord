@@ -1,72 +1,60 @@
 import { Liveblocks } from "@liveblocks/node";
 import { NextRequest } from "next/server";
-
-/**
- * Authenticating your Liveblocks application
- * https://liveblocks.io/docs/authentication
- */
+import { auth } from "@/auth";
+import { canAccessProject, getUserById } from "@/lib/db";
 
 const liveblocks = new Liveblocks({
   secret: process.env.LIVEBLOCKS_SECRET_KEY!,
 });
 
-export async function POST(request: NextRequest) {
-  // Get the current user's unique id from your database
-  const userId = Math.floor(Math.random() * 10) % USER_INFO.length;
+console.log(`[LiveblocksAuth] Secret Key Prefix: ${process.env.LIVEBLOCKS_SECRET_KEY?.substring(0, 3)}...`);
 
-  // Create a session for the current user
-  // userInfo is made available in Liveblocks presence hooks, e.g. useOthers
-  const session = liveblocks.prepareSession(`user-${userId}`, {
-    userInfo: USER_INFO[userId],
+export async function POST(request: NextRequest) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    console.log("[LiveblocksAuth] No session or user ID");
+    return new Response("Unauthorized: No Session", { status: 403 });
+  }
+
+  const { room } = await request.json();
+
+  if (!room) {
+    return new Response("Missing room ID", { status: 400 });
+  }
+
+  // Check if user has access to this project (room)
+  // Note: room ID in Liveblocks matches our Project ID
+  console.log(`[LiveblocksAuth] Checking access for User: ${session.user.id}, Room: ${room}`);
+
+  const hasAccess = canAccessProject(session.user.id, room);
+  console.log(`[LiveblocksAuth] Access result: ${hasAccess}`);
+
+  if (!hasAccess) {
+    console.log(`[LiveblocksAuth] Access DENIED for User: ${session.user.id} to Room: ${room}`);
+    return new Response(`Forbidden: No Access for user ${session.user.id} to room ${room}`, { status: 403 });
+  }
+
+  const user = getUserById(session.user.id);
+
+  const userInfo = {
+    name: user?.name || session.user.name || "Unknown",
+    color: "#D583F0", // TODO: Store color in DB or session
+    picture: user?.image || session.user.image || "https://liveblocks.io/avatars/avatar-1.png",
+  };
+
+  const liveblocksSession = liveblocks.prepareSession(`user-${session.user.id}`, {
+    userInfo,
   });
 
-  // Use a naming pattern to allow access to rooms with a wildcard
-  session.allow(`liveblocks:examples:*`, session.FULL_ACCESS);
+  // Allow full access to the room
+  liveblocksSession.allow(room, liveblocksSession.FULL_ACCESS);
 
-  // Authorize the user and return the result
-  const { body, status } = await session.authorize();
+  const { body, status } = await liveblocksSession.authorize();
+  console.log(`[LiveblocksAuth] Authorize status: ${status}`);
+  if (status !== 200) {
+    console.log(`[LiveblocksAuth] Authorize body: ${body}`);
+    console.log(`[LiveblocksAuth] Secret Key Present: ${!!process.env.LIVEBLOCKS_SECRET_KEY}`);
+  }
   return new Response(body, { status });
 }
-
-const USER_INFO = [
-  {
-    name: "Charlie Layne",
-    color: "#D583F0",
-    picture: "https://liveblocks.io/avatars/avatar-1.png",
-  },
-  {
-    name: "Mislav Abha",
-    color: "#F08385",
-    picture: "https://liveblocks.io/avatars/avatar-2.png",
-  },
-  {
-    name: "Tatum Paolo",
-    color: "#F0D885",
-    picture: "https://liveblocks.io/avatars/avatar-3.png",
-  },
-  {
-    name: "Anjali Wanda",
-    color: "#85EED6",
-    picture: "https://liveblocks.io/avatars/avatar-4.png",
-  },
-  {
-    name: "Jody Hekla",
-    color: "#85BBF0",
-    picture: "https://liveblocks.io/avatars/avatar-5.png",
-  },
-  {
-    name: "Emil Joyce",
-    color: "#8594F0",
-    picture: "https://liveblocks.io/avatars/avatar-6.png",
-  },
-  {
-    name: "Jory Quispe",
-    color: "#85DBF0",
-    picture: "https://liveblocks.io/avatars/avatar-7.png",
-  },
-  {
-    name: "Quinn Elton",
-    color: "#87EE85",
-    picture: "https://liveblocks.io/avatars/avatar-8.png",
-  },
-];

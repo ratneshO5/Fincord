@@ -1,0 +1,50 @@
+{
+  "users": [
+    {
+      "name": "RTS",
+      "email": "ratnesh.soni012@gmail.com",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocKvR9j44p_PdOB3sWfKY5GHn19vPZ5xYV8hl0QFPY3qWwK_iiqo=s96-c",
+      "id": "c3a01262-a370-4b0d-8ec2-4e3e90b54498",
+      "color": "#f97316"
+    },
+    {
+      "name": "Ratnesh Soni",
+      "email": "ratnesh.soni12o6@gmail.com",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocLerFTVNfpZSjP6MHKqOQvvKlCfn58abrfnKR4QT0hJbTHYDQ=s96-c",
+      "id": "cf07a254-f2f6-4f4c-bcb1-3e3b67ee0f28"
+    },
+    {
+      "name": "Ratnesh Soni",
+      "email": "ratnesh.soni.2o5@gmail.com",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocIZetM1Krv2b2mglZOZ8LkCkBTBencfCY2X9sD_oc1NvaAUvGU=s96-c",
+      "color": "#fb0135",
+      "id": "3b494cee-ce7c-4d06-a145-7e17d319c4e1"
+    },
+    {
+      "name": "skynet terminator",
+      "email": "skynetterminatorrx9000@gmail.com",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocKd50T1BxHjI7h-RCg5ymE3GD9q5SDK99wbMflmGf-4-FGUKA=s96-c",
+      "color": "#1386ee",
+      "id": "d9ea0b28-ab09-42e3-817f-f7f25e0aefd3"
+    }
+  ],
+  "projects": [
+    {
+      "id": "cd824f4d-ec16-402e-b187-2b27635dc7f0",
+      "name": "TEST",
+      "ownerId": "c3a01262-a370-4b0d-8ec2-4e3e90b54498",
+      "createdAt": 1764862414625,
+      "lastOpened": 1764862414625,
+      "inviteCode": "4c84db87abd209eebaa79ea63a66b7c6"
+    }
+  ],
+  "invites": [
+    {
+      "id": "7a82582f-c8f9-40e4-9702-d0a21aa3c5e4",
+      "projectId": "cd824f4d-ec16-402e-b187-2b27635dc7f0",
+      "senderId": "c3a01262-a370-4b0d-8ec2-4e3e90b54498",
+      "receiverEmail": "ratnesh.soni12o6@gmail.com",
+      "status": "accepted"
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+.container {
+    min-height: 100vh;
+    background-color: #0f0f12;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.loginContainer {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0f0f12;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.loginCard {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+    background-color: #1c1c1f;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid #2c2c2f;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: #9ca3af;
+    margin-bottom: 2rem;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1d5db;
+    margin-bottom: 0.5rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #2c2c2f;
+    border: 1px solid #3e3e42;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.colorGrid {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.colorBtn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.colorBtn:hover {
+    transform: scale(1.1);
+}
+
+.colorBtn.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white;
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #2563eb;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 1rem;
+    gap: 1rem;
+}
+
+.submitBtn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Dashboard Header */
+.header {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1c1c1f;
+    border-bottom: 1px solid #2c2c2f;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.05em;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.userSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1.125rem;
+    border: 2px solid #3e3e42;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.userName {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+.userStatus {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.logoutBtn {
+    background-color: #2c2c2f;
+    border: 1px solid #3e3e42;
+    color: #d1d5db;
+    cursor: pointer;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+    background-color: #3e3e42;
+    color: white;
+    border-color: #4b5563;
+}
+
+/* Dashboard Main */
+.main {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1024px) {
+    .main {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+.actionsColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.projectsColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background-color: #1c1c1f;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid #2c2c2f;
+    margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.cardDesc {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.createBtn {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #2563eb, #9333ea);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.createBtn:hover {
+    opacity: 0.9;
+}
+
+.joinContainer {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.joinInput {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    background-color: #2c2c2f;
+    border: 1px solid #3e3e42;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.joinBtn {
+    padding: 0.5rem 1rem;
+    background-color: #2c2c2f;
+    border: 1px solid #3e3e42;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.joinBtn:hover {
+    background-color: #3e3e42;
+}
+
+.projectsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .projectsGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.projectCard {
+    background-color: #1c1c1f;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #2c2c2f;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.projectCard:hover {
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.projectName {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.projectId {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-family: monospace;
+    margin: 0;
+}
+
+.projectDate {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 1rem;
+}
+
+.createForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.createActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.confirmBtn {
+    flex: 1;
+    padding: 0.5rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.cancelBtn {
+    flex: 1;
+    padding: 0.5rem;
+    background-color: #374151;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.invitesList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.inviteItem {
+    background-color: #2c2c2f;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inviteProject {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.inviteSender {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.inviteActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.acceptBtn {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.declineBtn {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    border: 1px dashed #2c2c2f;
+    border-radius: 1rem;
+    color: #6b7280;
+}

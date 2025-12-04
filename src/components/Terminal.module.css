@@ -1,0 +1,78 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #1e1e1e;
+}
+
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid #3e3e42;
+  background: #252526;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.output {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 4px 8px;
+  font-size: 13px;
+  background: #1e1e1e;
+}
+
+.output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* stdin + run row at the bottom */
+.inputBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #3e3e42;
+  padding: 4px 8px;
+  background: #252526;
+  gap: 8px;
+}
+
+.stdin {
+  flex: 1;
+  min-height: 32px;
+  max-height: 80px;
+  resize: vertical;
+  background: #1e1e1e;
+  color: #ffffff;
+  border-radius: 3px;
+  border: 1px solid #3e3e42;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+}
+
+.runButton {
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid #0e639c;
+  background: #0e639c;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.runButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

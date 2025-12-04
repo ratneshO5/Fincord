@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fincord Guide Book</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; }
+        h1 { font-size: 2em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h2 { font-size: 1.5em; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; }
+        p { margin-top: 0; margin-bottom: 16px; }
+        code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+        }
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 3px;
+        }
+        pre code { background-color: transparent; padding: 0; }
+        ul { padding-left: 2em; margin-bottom: 16px; }
+        li { margin-bottom: 4px; }
+        hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: #e1e4e8; border: 0; }
+        .scenario { background: #f1f8ff; padding: 15px; border-left: 4px solid #0366d6; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Fincord Guide Book: The Ultimate Technical Reference</h1>
+
+<p>This guide is the definitive source of truth for the Fincord project. It is structured to help you defend your project by explaining not just <em>what</em> the code is, but <em>how</em> it lives and breathes from the moment the server starts to when users interact.</p>
+
+<hr>
+
+<h1>Part 1: The Lifecycle & Execution Flow</h1>
+
+<p>This section traces the "heartbeat" of the application. We will follow the execution path from the initial server request to complex user interactions.</p>
+
+<h2>1. Initialization Phase (The Boot Process)</h2>
+
+<h3>Step 1.1: Server Start & Routing</h3>
+<ul>
+    <li><strong>Trigger:</strong> You run <code>npm run dev</code>. Next.js starts the server.</li>
+    <li><strong>Request:</strong> A user visits <code>http://localhost:3000/</code>.</li>
+    <li><strong>Routing:</strong> Next.js looks at <code>src/app</code>. It finds <code>page.tsx</code> (the home page) and wraps it in <code>layout.tsx</code> (the root layout).</li>
+</ul>
+
+<h3>Step 1.2: Server-Side Rendering (SSR)</h3>
+<p>Before any JavaScript runs in the browser, the server builds the initial HTML.</p>
+<ol>
+    <li><strong><code>src/app/layout.tsx</code> executes:</strong>
+        <ul>
+            <li>It renders the <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code> tags.</li>
+            <li>It imports <code>globals.css</code>, applying the dark theme (<code>#1e1e1e</code>) immediately so there's no "white flash".</li>
+            <li>It wraps everything in <code>&lt;Providers&gt;</code>.</li>
+        </ul>
+    </li>
+    <li><strong><code>src/app/page.tsx</code> executes:</strong>
+        <ul>
+            <li>It renders the <code>&lt;Room&gt;</code> component.</li>
+            <li>Inside <code>&lt;Room&gt;</code>, it renders <code>&lt;CollaborativeEditor&gt;</code>.</li>
+        </ul>
+    </li>
+    <li><strong>Result:</strong> The browser receives a static HTML page. It looks like the editor, but it's not interactive yet.</li>
+</ol>
+
+<h3>Step 1.3: Client Hydration & Connection</h3>
+<p>Now the browser takes over ("Hydration").</p>
+<ol>
+    <li><strong><code>src/app/Providers.tsx</code> wakes up:</strong>
+        <ul>
+            <li>It initializes the <code>LiveblocksProvider</code>. This is the "phone line" to the collaboration server.</li>
+            <li>It points to <code>/api/liveblocks-auth</code> to check if the user is allowed in (authentication).</li>
+        </ul>
+    </li>
+    <li><strong><code>src/app/Room.tsx</code> connects:</strong>
+        <ul>
+            <li>The <code>Room</code> component reads the URL params to decide which "Room ID" to join (default: <code>liveblocks:examples:nextjs-yjs-monaco</code>).</li>
+            <li>It mounts <code>&lt;RoomProvider&gt;</code>. <strong>CRITICAL MOMENT:</strong> The browser opens a WebSocket connection to Liveblocks.</li>
+            <li>While connecting, <code>&lt;ClientSideSuspense&gt;</code> shows the <code>&lt;Loading /&gt;</code> spinner.</li>
+            <li>Once connected, the spinner disappears, and <code>&lt;CollaborativeEditor&gt;</code> is fully mounted.</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>2. The "Brain" Activation (File System Boot)</h2>
+<p>The <code>CollaborativeEditor</code> is the main container. As soon as it mounts, it initializes the <strong>File System</strong>.</p>
+<ul>
+    <li><strong>File:</strong> <code>src/context/FileSystem.tsx</code></li>
+    <li><strong>Action:</strong> <code>FileSystemProviderDefault</code> mounts.</li>
+    <li><strong>Logic:</strong>
+        <ol>
+            <li>It calls <code>provider.getYDoc()</code> to get the shared document (the "database" shared by all users).</li>
+            <li>It accesses the shared map <code>"files"</code>.</li>
+            <li><strong>The Bootstrap Check:</strong> It asks, "Is this map empty?"
+                <ul>
+                    <li><strong>YES (First run):</strong> It creates the <code>README.md</code> file programmatically, inserting the welcome text into a shared <code>Y.Text</code> object.</li>
+                    <li><strong>NO (Returning user):</strong> It reads the existing files.</li>
+                </ul>
+            </li>
+            <li><strong>State Sync:</strong> It converts the raw Yjs data into a nice JavaScript array (<code>FileEntry[]</code>) and saves it to the React state (<code>files</code>).</li>
+            <li><strong>UI Update:</strong> The <code>Explorer</code> component sees this new state and renders the file tree.</li>
+        </ol>
+    </li>
+</ul>
+
+<h2>3. The "Heart" Activation (Editor Binding)</h2>
+<p>Now that we have files, we need to show them in the editor.</p>
+<ul>
+    <li><strong>File:</strong> <code>src/components/CollaborativeEditor.tsx</code> -> <code>EditorInner</code></li>
+    <li><strong>Action:</strong>
+        <ol>
+            <li>The <code>FileSystem</code> tells the editor: "The active file is <code>README.md</code>".</li>
+            <li><code>EditorInner</code> gets the <code>Y.Text</code> for <code>README.md</code>.</li>
+            <li>It creates a Monaco Model (an in-memory text buffer).</li>
+            <li><strong>The Binding:</strong> It creates a <code>new MonacoBinding(...)</code>.</li>
+            <li><strong>Result:</strong> The text from the shared Yjs document appears in the editor.</li>
+        </ol>
+    </li>
+</ul>
+
+<hr>
+
+<h1>Part 2: User Interaction Flows</h1>
+<p>Here is exactly what happens, step-by-step, during specific user actions.</p>
+
+<div class="scenario">
+    <h2>Scenario A: User Types Code</h2>
+    <p><strong>Goal:</strong> User A types <code>console.log("Hi")</code> in <code>main.ts</code>. User B sees it instantly.</p>
+    <ol>
+        <li><strong>User A presses keys:</strong> Monaco Editor captures the input.</li>
+        <li><strong>MonacoBinding Intercepts:</strong> The <code>y-monaco</code> binding (in <code>CollaborativeEditor.tsx</code>) detects the change in the Monaco Model.</li>
+        <li><strong>Yjs Update:</strong> The binding applies the "delta" (change) to the underlying <code>Y.Text</code> object.</li>
+        <li><strong>Propagation:</strong>
+            <ul>
+                <li><strong>Local:</strong> The <code>FileSystem</code> context observes this change and might update the file size or metadata if needed.</li>
+                <li><strong>Network:</strong> The <code>LiveblocksYjsProvider</code> encodes this update into a binary format and sends it over the WebSocket.</li>
+            </ul>
+        </li>
+        <li><strong>User B Receives:</strong>
+            <ul>
+                <li>User B's browser receives the binary packet.</li>
+                <li>Yjs applies the update to User B's local <code>Y.Doc</code>.</li>
+                <li>User B's <code>MonacoBinding</code> sees the <code>Y.Text</code> changed.</li>
+                <li>It updates User B's Monaco Editor to show the new text.</li>
+                <li><strong>Latency:</strong> This happens in milliseconds.</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+
+<div class="scenario">
+    <h2>Scenario B: Creating a New File</h2>
+    <p><strong>Goal:</strong> User clicks "+ File" and names it <code>script.js</code>.</p>
+    <ol>
+        <li><strong>Click:</strong> User clicks the button in <code>Explorer.tsx</code>.</li>
+        <li><strong>State Change:</strong> <code>creating</code> state is set to true. An input box appears in the file tree.</li>
+        <li><strong>Commit:</strong> User types <code>script.js</code> and hits Enter.</li>
+        <li><strong>Action:</strong> <code>commitCreate()</code> calls <code>createFile("script.js")</code> from <code>FileSystem.tsx</code>.</li>
+        <li><strong>Logic (<code>FileSystem.tsx</code>):</strong>
+            <ul>
+                <li>Checks if <code>script.js</code> already exists.</li>
+                <li>Creates a new <code>Y.Text</code> named <code>file:script.js</code>.</li>
+                <li>Adds an entry to the <code>"files"</code> Y.Map: <code>{ type: "file", language: "javascript", ... }</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Sync:</strong> This change is broadcasted. All users see the new file appear in their Explorer instantly.</li>
+    </ol>
+</div>
+
+<div class="scenario">
+    <h2>Scenario C: Running Code (The Piston Flow)</h2>
+    <p><strong>Goal:</strong> User clicks "Run" on a Python file.</p>
+    <ol>
+        <li><strong>Click:</strong> User clicks the "Play" button in <code>Toolbar.tsx</code>.</li>
+        <li><strong>Bridge:</strong> The button calls <code>window.__fincord_run_active_file__()</code>.</li>
+        <li><strong>Handler:</strong> This global function (defined in <code>CollaborativeEditor.tsx</code>) calls <code>terminalRef.current.run()</code>.</li>
+        <li><strong>Terminal Logic (<code>TerminalPanel.tsx</code>):</strong>
+            <ul>
+                <li><code>run()</code> wakes up.</li>
+                <li>It grabs the code from the editor: <code>print("Hello")</code>.</li>
+                <li>It detects the language: <code>python</code>.</li>
+                <li>It prepares a JSON payload: <code>{ language: "python", files: [{ content: "..." }] }</code>.</li>
+            </ul>
+        </li>
+        <li><strong>API Call:</strong> It sends a <code>POST</code> request to <code>/api/execute</code>.</li>
+        <li><strong>Server Proxy (<code>api/execute/route.ts</code>):</strong>
+            <ul>
+                <li>Next.js server receives the request.</li>
+                <li>It looks up the Piston runtime version for Python (e.g., "3.10.0").</li>
+                <li>It forwards the request to <code>https://emkc.org/api/v2/piston/execute</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Execution:</strong> Piston (external server) runs the code in a sandbox and returns <code>{ run: { stdout: "Hello\n" } }</code>.</li>
+        <li><strong>Display:</strong> <code>TerminalPanel</code> receives the JSON and sets <code>output</code> state to "Hello\n". The user sees the result.</li>
+    </ol>
+</div>
+
+<hr>
+
+<h1>Part 3: The Encyclopedia (File-by-File Detail)</h1>
+
+<h2>📂 <code>src/app</code> (The Application Layer)</h2>
+
+<h3><code>layout.tsx</code></h3>
+<p><strong>Role:</strong> The skeleton of the app.</p>
+<ul>
+    <li><strong>Line 1:</strong> Imports <code>globals.css</code> to ensure styles are loaded first.</li>
+    <li><strong>Line 9 (<code>RootLayout</code>):</strong> The main function.</li>
+    <li><strong>Line 31 (<code>&lt;Providers&gt;</code>):</strong> Wraps the app in the Liveblocks context. Without this, no collaboration features would work.</li>
+</ul>
+
+<h3><code>page.tsx</code></h3>
+<p><strong>Role:</strong> The entry point.</p>
+<ul>
+    <li><strong>Line 7 (<code>&lt;Room&gt;</code>):</strong> Ensures we are connected to a room before showing the editor. This prevents the "editor loading before data is ready" bug.</li>
+</ul>
+
+<h3><code>Room.tsx</code></h3>
+<p><strong>Role:</strong> Connection manager.</p>
+<ul>
+    <li><strong>Line 10 (<code>useExampleRoomId</code>):</strong> Generates a room ID.
+        <ul><li><em>Detail:</em> It checks the URL query params. If you visit <code>?exampleId=team-A</code>, it joins a separate room from <code>?exampleId=team-B</code>. This allows multiple separate teams to use the same deployed app.</li></ul>
+    </li>
+    <li><strong>Line 19 (<code>ClientSideSuspense</code>):</strong> A React Suspense boundary. It effectively says "Don't render the children until we are fully connected to Liveblocks".</li>
+</ul>
+
+<h3><code>api/execute/route.ts</code></h3>
+<p><strong>Role:</strong> The secure gateway to the code execution engine.</p>
+<ul>
+    <li><strong>Line 5:</strong> Defines the Piston URL (<code>emkc.org</code>).</li>
+    <li><strong>Line 25-76 (Version Auto-Discovery):</strong>
+        <ul>
+            <li>Piston requires a version number (e.g., "3.10.0") to run code. Users don't know this.</li>
+            <li>This block fetches the list of <em>all</em> supported runtimes from Piston.</li>
+            <li>It loops through them to find one that matches the requested language (e.g., "python").</li>
+            <li>It extracts the version string and adds it to the request.</li>
+        </ul>
+    </li>
+    <li><strong>Line 78:</strong> The actual <code>fetch</code> call to Piston. It runs server-side to avoid CORS issues.</li>
+</ul>
+
+<hr>
+
+<h2>📂 <code>src/context</code> (The State Layer)</h2>
+
+<h3><code>FileSystem.tsx</code></h3>
+<p><strong>Role:</strong> The Virtual Operating System. It manages files, folders, and tabs.</p>
+<ul>
+    <li><strong>Line 20 (<code>FileEntry</code>):</strong> The shape of a file. Notice <code>textName</code>. This is the "pointer" to the actual content. We don't store the content in the file list (that would be slow); we store a reference to a separate <code>Y.Text</code> object.</li>
+    <li><strong>Line 74 (<code>FileSystemProviderDefault</code>):</strong>
+        <ul>
+            <li><strong>Line 91 (Bootstrap):</strong> <code>if (filesMap.size === 0)</code>. This is the "First Run" logic. It injects the <code>README.md</code>.</li>
+            <li><strong>Line 168 (<code>updateFromY</code>):</strong> This function converts the complex Yjs map into a simple array. It runs every time <em>anything</em> changes in the file system.</li>
+            <li><strong>Line 210 (<code>createFile</code>):</strong>
+                <ul>
+                    <li><code>yDoc.getText(...)</code>: Creates the content storage.</li>
+                    <li><code>filesMap.set(...)</code>: Creates the metadata entry.</li>
+                    <li><strong>Crucial:</strong> It performs <em>both</em> actions so the file is valid.</li>
+                </ul>
+            </li>
+            <li><strong>Line 258 (<code>deleteEntry</code>):</strong>
+                <ul>
+                    <li><strong>Recursion:</strong> If you delete a folder, it loops through <em>all</em> files. If a file's path starts with the folder's path (<code>key.startsWith(path + "/")</code>), it deletes that file too. This prevents "orphan" files.</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<hr>
+
+<h2>📂 <code>src/components</code> (The UI Layer)</h2>
+
+<h3><code>CollaborativeEditor.tsx</code></h3>
+<p><strong>Role:</strong> The Main Layout & Editor Controller.</p>
+<ul>
+    <li><strong>Line 25 (<code>guessMonacoLanguage</code>):</strong> A helper that maps <code>.py</code> -> <code>python</code>, <code>.ts</code> -> <code>typescript</code>. This tells Monaco which syntax highlighting to use.</li>
+    <li><strong>Line 62 (<code>useEffect</code> - Global Run Hook):</strong>
+        <ul>
+            <li>It attaches <code>__fincord_run_active_file__</code> to the <code>window</code> object.</li>
+            <li><em>Why?</em> The <code>Toolbar</code> component is a child of <code>Editor</code>, but the <code>Terminal</code> is a sibling. React data flow makes it hard for the Toolbar to talk to the Terminal directly without complex context. This global function is a pragmatic shortcut to let the "Play" button trigger the Terminal.</li>
+        </ul>
+    </li>
+    <li><strong>Line 89 (Resizing Logic):</strong> Handles the dragging of the sidebar and terminal panel using standard DOM <code>mousemove</code> events.</li>
+</ul>
+
+<h3><code>EditorInner</code> (inside <code>CollaborativeEditor.tsx</code>)</h3>
+<p><strong>Role:</strong> The Monaco Wrapper.</p>
+<ul>
+    <li><strong>Line 258 (IntelliSense Config):</strong>
+        <ul>
+            <li><code>compilerOptions</code>: We set <code>allowJs: true</code> and <code>noEmit: true</code>.</li>
+            <li><em>Why?</em> By default, Monaco's TypeScript engine is very strict. It will show red squiggly lines if you don't have a <code>tsconfig.json</code> or if you import missing files. These settings relax the compiler so it acts more like a text editor and less like a build tool, preventing annoying errors for the user.</li>
+        </ul>
+    </li>
+    <li><strong>Line 337 (<code>new MonacoBinding</code>):</strong>
+        <ul>
+            <li>This is the single most important line for collaboration. It links the <code>Y.Text</code> (shared data) to the <code>model</code> (editor view).</li>
+        </ul>
+    </li>
+</ul>
+
+<h3><code>Explorer.tsx</code></h3>
+<p><strong>Role:</strong> The File Tree UI.</p>
+<ul>
+    <li><strong>Line 46 (<code>useMemo</code> - Tree Builder):</strong>
+        <ul>
+            <li>The file system stores files as a <em>flat list</em> (e.g., <code>["a.txt", "folder/b.txt"]</code>).</li>
+            <li>The UI needs a <em>tree</em> (folders inside folders).</li>
+            <li>This logic iterates over the flat list and builds a nested object structure (<code>TreeNode</code>) so it can be rendered as a tree.</li>
+        </ul>
+    </li>
+    <li><strong>Line 186 (<code>handleImportChange</code>):</strong>
+        <ul>
+            <li>Uses the <code>webkitRelativePath</code> property of the File API. This allows users to drag-and-drop an entire folder structure, and Fincord will recreate that exact structure in the browser.</li>
+        </ul>
+    </li>
+</ul>
+
+<h3><code>TerminalPanel.tsx</code></h3>
+<p><strong>Role:</strong> The execution interface.</p>
+<ul>
+    <li><strong>Line 27 (<code>map</code>):</strong> A dictionary mapping file extensions to "friendly" names (e.g., <code>rs</code> -> <code>Rust</code>).</li>
+    <li><strong>Line 113 (<code>fetch</code>):</strong> The call to our backend API.</li>
+    <li><strong>Line 125:</strong> Handles the response. It checks for <code>run.stdout</code> (success) or <code>run.stderr</code> (runtime error) and formats it for display.</li>
+</ul>
+
+<h3><code>Cursors.tsx</code></h3>
+<p><strong>Role:</strong> Visualizing other users.</p>
+<ul>
+    <li><strong>How it works:</strong> It does <em>not</em> render <code>&lt;div&gt;</code>s for cursors. That would be slow.</li>
+    <li><strong>Line 54:</strong> It generates a dynamic <code>&lt;style&gt;</code> tag.</li>
+    <li><strong>Line 62:</strong> It creates CSS classes like <code>.yRemoteSelectionHead-123</code>.</li>
+    <li><strong>Line 65:</strong> It sets the <code>--user-color</code> variable for that specific user ID.</li>
+    <li><strong>Result:</strong> Monaco Editor (which supports these CSS classes natively) automatically picks up these styles and paints the cursors in the correct colors.</li>
+</ul>
+
+<h3><code>UserProfile.tsx</code></h3>
+<p><strong>Role:</strong> Identity management.</p>
+<ul>
+    <li><strong>Line 13:</strong> Reads from <code>localStorage</code>. This ensures that if you refresh the page, you don't lose your name.</li>
+    <li><strong>Line 47 (<code>updateMyPresence</code>):</strong> This Liveblocks hook broadcasts your name to everyone else. This is how your name appears above your cursor on <em>their</em> screen.</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+.explorer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #252526;
+  overflow: hidden;
+}
+
+.branding {
+  padding: 12px 16px;
+  border-bottom: 1px solid #3e3e42;
+  background: #2d2d30;
+}
+
+.appName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #007acc;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appName::before {
+  content: "⚡";
+  font-size: 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid #3e3e42;
+  background: #2d2d30;
+}
+
+.headerTitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: #cccccc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 6px;
+  position: relative;
+}
+
+.importWrapper {
+  position: relative;
+}
+
+.importMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #2d2d30;
+  border: 1px solid #3e3e42;
+  border-radius: 4px;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  margin-top: 4px;
+}
+
+.importMenu button {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #d4d4d4;
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.importMenu button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.importMenu button:first-child {
+  border-radius: 4px 4px 0 0;
+}
+
+.importMenu button:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+.headerBtn {
+  background: transparent;
+  border: none;
+  color: #d4d4d4;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.headerBtn:hover {
+  background: #3e3e42;
+}
+
+.fileTree {
+  flex: 1;
+  overflow: auto;
+  padding: 8px 0;
+}
+
+.folderItem {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.folderItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.folderToggle {
+  background: none;
+  border: none;
+  color: #d4d4d4;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.folderName {
+  color: #cccccc;
+  font-size: 13px;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.rootFiles {
+  display: flex;
+  flex-direction: column;
+}
+
+.nestedFiles {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+  color: #d4d4d4;
+  font-size: 13px;
+  transition: background 0.1s;
+}
+
+.fileItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.fileItem.active {
+  background: rgba(79, 89, 102, 0.4);
+  color: #ffffff;
+}
+
+.fileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  font-size: 14px;
+  margin-right: 6px;
+}
+
+.fileName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deleteBtn {
+  background: transparent;
+  border: none;
+  color: #999999;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 4px;
+  margin-left: 4px;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.fileItem:hover .deleteBtn {
+  opacity: 1;
+}
+
+.deleteBtn:hover {
+  color: #ff6b6b;
+}
+
+/* Scrollbar styling */
+.fileTree::-webkit-scrollbar {
+  width: 10px;
+}
+
+.fileTree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fileTree::-webkit-scrollbar-thumb {
+  background: #464647;
+  border-radius: 4px;
+}
+
+.fileTree::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
