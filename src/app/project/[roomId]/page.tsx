@@ -1,7 +1,7 @@
 import { Room } from "@/app/Room";
 import { CollaborativeEditor } from "@/components/CollaborativeEditor";
 import { auth } from "@/auth";
-import { canAccessProject, getProject } from "@/lib/db";
+import { canAccessProject, getProject, createProject } from "@/lib/db";
 import { redirect } from "next/navigation";
 
 export default async function ProjectPage({ params }: { params: Promise<{ roomId: string }> }) {
@@ -15,7 +15,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ roomId
         redirect("/");
     }
 
-    const project = getProject(roomId);
+    let project = getProject(roomId);
+
+    // VERCEL DEMO FIX: Auto-restore missing projects
+    if (!project && process.env.VERCEL && session?.user?.id) {
+        console.log(`[ProjectPage] Project ${roomId} missing on Vercel. Auto-restoring for demo.`);
+        // We restore it with the current user as owner to ensure access
+        // Note: We need to import createProject if not already imported, or use the one we added to imports
+        project = createProject("Restored Project (Demo)", session.user.id, roomId);
+    }
 
     if (!project) {
         return (
