@@ -27,8 +27,25 @@ export async function POST(request: NextRequest) {
   // Note: room ID in Liveblocks matches our Project ID
   console.log(`[LiveblocksAuth] Checking access for User: ${session.user.id}, Room: ${room}`);
 
-  const hasAccess = canAccessProject(session.user.id, room);
+  let hasAccess = canAccessProject(session.user.id, room);
   console.log(`[LiveblocksAuth] Access result: ${hasAccess}`);
+
+  // VERCEL DEMO FIX:
+  // On Vercel, serverless functions might run on different instances with separate /tmp directories.
+  // If the project was created on Instance A, Instance B (running this auth check) won't see it.
+  // In this case, we auto-create the project in Instance B's local DB to allow the demo to proceed.
+  if (!hasAccess && process.env.VERCEL) {
+    const { getProject, createProject } = await import("@/lib/db");
+    const project = getProject(room);
+    if (!project) {
+      console.log(`[LiveblocksAuth] Project ${room} missing in this lambda instance. Auto-creating for demo.`);
+      // We don't know the name, so we use a placeholder.
+      createProject("Untitled Project (Demo)", session.user.id);
+      // Now check access again (should be true as we just created it with this user as owner)
+      hasAccess = canAccessProject(session.user.id, room);
+      console.log(`[LiveblocksAuth] Access result after auto-create: ${hasAccess}`);
+    }
+  }
 
   if (!hasAccess) {
     console.log(`[LiveblocksAuth] Access DENIED for User: ${session.user.id} to Room: ${room}`);
