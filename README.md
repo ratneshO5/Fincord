@@ -1,95 +1,136 @@
-<p align="center">
-  <a href="https://liveblocks.io#gh-light-mode-only">
-    <img src="https://raw.githubusercontent.com/liveblocks/liveblocks/main/.github/assets/header-light.svg" alt="Liveblocks" />
-  </a>
-  <a href="https://liveblocks.io#gh-dark-mode-only">
-    <img src="https://raw.githubusercontent.com/liveblocks/liveblocks/main/.github/assets/header-dark.svg" alt="Liveblocks" />
-  </a>
-</p>
+<div align="center">
 
-# Collaborative Code Editor (Monaco)
+# ⚡ Fincord
+### The Ultimate Collaborative Code Editor
 
-<p>
-  <a href="https://liveblocks.io/examples/collaborative-text-editor/nextjs-yjs-monaco/preview">
-    <img src="https://img.shields.io/badge/live%20preview-message?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE2Ljg0OSA0Ljc1SDBsNC44NDggNS4wNzV2Ny4wMDhsMTItMTIuMDgzWk03LjE1IDE5LjI1SDI0bC00Ljg0OS01LjA3NVY3LjE2N2wtMTIgMTIuMDgzWiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==&color=333" alt="Live Preview" />
-  </a>
-  <a href="https://codesandbox.io/s/github/liveblocks/liveblocks/tree/main/examples/nextjs-yjs-monaco">
-    <img src="https://img.shields.io/badge/open%20in%20codesandbox-message?style=flat&logo=codesandbox&color=333&logoColor=fff" alt="Open in CodeSandbox" />
-  </a>
-  <img src="https://img.shields.io/badge/react-message?style=flat&logo=react&color=0bd&logoColor=fff" alt="React" />
-  <img src="https://img.shields.io/badge/next.js-message?style=flat&logo=next.js&color=07f&logoColor=fff" alt="Next.js" />
-  <img src="https://img.shields.io/badge/yjs-message?style=flat&color=0bd" alt="Yjs" />
-  <img src="https://img.shields.io/badge/monaco-message?style=flat&color=627" alt="Monaco" />
-</p>
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Liveblocks](https://img.shields.io/badge/Liveblocks-Collaboration-f59e0b?style=for-the-badge&logo=liveblocks&logoColor=white)](https://liveblocks.io/)
+[![Monaco](https://img.shields.io/badge/Monaco-Editor-1e1e1e?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://microsoft.github.io/monaco-editor/)
+[![Piston](https://img.shields.io/badge/Piston-Execution-green?style=for-the-badge&logo=python&logoColor=white)](https://github.com/engineer-man/piston)
 
-This example shows how to build a collaborative code editor with
-[Liveblocks](https://liveblocks.io), [Yjs](https://docs.yjs.dev),
-[Monaco](https://microsoft.github.io/monaco-editor/), and
-[Next.js](https://nextjs.org/).
+<br />
 
-As users edit the code, changes will be automatically persisted and
-synced—allowing for collaborative code editing experience. Users will also be
-able to see who else is currently online and each other’s cursors.
+**Fincord** is a state-of-the-art collaborative IDE built for teams who ship fast.
+Real-time editing, secure workspaces, and instant code execution—all in your browser.
 
-<img src="https://raw.githubusercontent.com/liveblocks/liveblocks/main/.github/assets/examples/code-editor.png" width="536" alt="Collaborative Code Editor" />
+[Features](#-features) • [Getting Started](#-getting-started) • [Architecture](#-architecture) • [Contributing](#-contributing)
 
-## Getting started
+</div>
 
-Run the following command to try this example locally:
+---
 
-```bash
-npx create-liveblocks-app@latest --example nextjs-yjs-monaco --api-key
-```
+## 🚀 Features
 
-This will download the example and ask permission to open your browser, enabling
-you to automatically get your API key from your
-[liveblocks.io](https://liveblocks.io) account.
+### 🤝 Real-Time Collaboration
+- **Multi-User Editing**: See changes instantly as your team types.
+- **Live Cursors & Avatars**: Know exactly where everyone is working.
+- **Presence Awareness**: See who is online with real-time status indicators.
 
-### Manual setup
+### 🛡️ Secure Workspaces
+- **Crypto-Secure Invites**: Generate 32-character hex codes (`9f3db62c...`) for airtight access control.
+- **Role-Based Access**: Owners can manage collaborators and revoke access instantly.
+- **Private Rooms**: Every project is an isolated, secure environment.
 
-<details><summary>Read more</summary>
+### ⚡ Powerful Editor
+- **Monaco Engine**: The same editor that powers VS Code.
+- **Smart IntelliSense**: Auto-completion and syntax highlighting for 20+ languages.
+- **Breadcrumbs**: Easy navigation through your project structure.
+- **File System**: Create, rename, and delete files and folders with a virtual file system.
 
-<p></p>
+### 🏃 Instant Execution
+- **Run Anywhere**: Execute Python, JavaScript, Rust, Go, and more directly in the browser.
+- **Piston Integration**: Secure, sandboxed code execution via the Piston API.
+- **Integrated Terminal**: View output and errors in a sleek, resizable panel.
 
-Alternatively, you can set up your project manually:
+### 🎨 Premium UI/UX
+- **Glassmorphism Design**: A modern, dark-themed interface that looks beautiful on any screen.
+- **Custom Profiles**: Personalize your identity with custom names and avatar colors.
+- **Smooth Animations**: Subtle transitions and toast notifications for a polished feel.
 
-- Install all dependencies with `npm install`
-- Create an account on [liveblocks.io](https://liveblocks.io/dashboard)
-- Copy your **secret** key from the
-  [dashboard](https://liveblocks.io/dashboard/apikeys)
-- Create an `.env.local` file and add your **secret** key as the
-  `LIVEBLOCKS_SECRET_KEY` environment variable
-- Run `npm run dev` and go to [http://localhost:3000](http://localhost:3000)
+---
 
-</details>
+## 🛠️ Tech Stack
 
-### Deploy on Vercel
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: CSS Modules (Zero-runtime overhead)
+- **Collaboration**: [Liveblocks](https://liveblocks.io/) + [Yjs](https://github.com/yjs/yjs)
+- **Editor**: [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+- **Auth**: [NextAuth.js](https://next-auth.js.org/)
+- **Database**: JSON-based persistence (Lightweight & Portable)
 
-<details><summary>Read more</summary>
+---
 
-<p></p>
+## 🏁 Getting Started
 
-To both deploy on [Vercel](https://vercel.com), and run the example locally, use
-the following command:
+### Prerequisites
+- Node.js 18+
+- npm or yarn
 
-```bash
-npx create-liveblocks-app@latest --example nextjs-yjs-monaco --vercel
-```
+### Installation
 
-This will download the example and ask permission to open your browser, enabling
-you to deploy to Vercel.
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/ratneshO5/Fincord.git
+    cd Fincord
+    ```
 
-</details>
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-### Develop on CodeSandbox
+3.  **Set up Environment Variables**
+    Create a `.env.local` file in the root directory:
+    ```env
+    # Liveblocks Secret Key (Get from liveblocks.io)
+    LIVEBLOCKS_SECRET_KEY=sk_...
 
-<details><summary>Read more</summary>
+    # NextAuth Secret (Generate with `openssl rand -base64 32`)
+    NEXTAUTH_SECRET=...
+    
+    # Google OAuth (Optional, for social login)
+    GOOGLE_CLIENT_ID=...
+    GOOGLE_CLIENT_SECRET=...
+    ```
 
-<p></p>
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
 
-After forking
-[this example](https://codesandbox.io/s/github/liveblocks/liveblocks/tree/main/examples/nextjs-yjs-monaco)
-on CodeSandbox, create the `LIVEBLOCKS_SECRET_KEY` environment variable as a
-[secret](https://codesandbox.io/docs/secrets).
+5.  **Open your browser**
+    Visit `http://localhost:3000` to start coding!
 
-</details>
+---
+
+## 🏗️ Architecture
+
+Fincord follows a **Serverless + Client-Side State** architecture:
+
+1.  **State Management**: The "Truth" lives in Yjs documents synced via Liveblocks. The React UI is merely a reflection of this state.
+2.  **Virtual File System**: Files are stored as `Y.Text` objects within a `Y.Map`, allowing for complex directory structures without a backend database for files.
+3.  **Execution Proxy**: Code execution requests are proxied through a Next.js API route to avoid CORS issues and hide API keys, then sent to a Piston sandbox.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
+
+---
+
+<div align="center">
+
+**Built with ❤️ by Ratnesh**
+
+[Report Bug](https://github.com/ratneshO5/Fincord/issues) • [Request Feature](https://github.com/ratneshO5/Fincord/issues)
+
+</div>
