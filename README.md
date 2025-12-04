@@ -3,6 +3,10 @@
 # ⚡ Fincord
 ### The Ultimate Collaborative Code Editor
 
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=25&pause=1000&color=3B82F6&center=true&vCenter=true&width=600&lines=Collaborate+in+Real-Time;Execute+Code+Instantly;Build+Faster+Together;Secure+Workspaces+for+Teams" alt="Typing SVG" /></a>
+
+<br />
+
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Liveblocks](https://img.shields.io/badge/Liveblocks-Collaboration-f59e0b?style=for-the-badge&logo=liveblocks&logoColor=white)](https://liveblocks.io/)
