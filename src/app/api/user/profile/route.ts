@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
     const { name, color } = await request.json();
 
     const db = readDB();
-    const userIndex = db.users.findIndex((u: any) => u.email === session.user.email);
+    const userEmail = session.user.email;
+    const userIndex = db.users.findIndex((u: any) => u.email === userEmail);
 
     if (userIndex !== -1) {
         db.users[userIndex].name = name;
