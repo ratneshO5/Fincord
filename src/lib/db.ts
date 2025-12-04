@@ -116,10 +116,10 @@ export function getUserById(id: string): User | undefined {
 }
 
 // --- Project Operations ---
-export function createProject(name: string, ownerId: string): Project {
+export function createProject(name: string, ownerId: string, id?: string): Project {
     const db = readDB();
     const newProject: Project = {
-        id: uuidv4(),
+        id: id || uuidv4(),
         name,
         ownerId,
         createdAt: Date.now(),
